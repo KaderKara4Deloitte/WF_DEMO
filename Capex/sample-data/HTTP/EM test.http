@@ -1,0 +1,51 @@
+#Global Variables
+@OAuthurl = https://ad487a1ctrial.authentication.us10.hana.ondemand.com
+@ressourceurl = https://enterprise-messaging-pubsub.cfapps.us10.hana.ondemand.com
+@queuename = testqueue1
+@clientid = sb-clone-xbem-service-broker-15c1d212cb5d483db02d22c2f30c7fd4-clone!b79620|xbem-service-broker-!b732
+@clientsecret = f5846711-560e-43d5-aac6-a094e108bf06$FPkOXqeDb1ATEUxeBtYUYpGqRFaHnqBRk804ITqKm6c=
+
+
+### Get Access Token
+# @name Oauth2Response
+
+POST   {{OAuthurl}}/oauth/token 
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+client_id={{clientid}}&client_secret={{clientsecret}}&grant_type=client_credentials&response_type=token
+
+### Variable Response
+@accessToken = {{Oauth2Response.response.body.access_token}}
+
+### Send message to EM queue
+POST   {{ressourceurl}}/messagingrest/v1/queues/{{queuename}}/messages
+Content-Type: application/json
+x-qos: 1
+Authorization: Bearer {{accessToken}}
+
+{
+    "Id": "1234567",
+    "Data": {
+        "body": {
+        "message": "Hello World"
+        }
+    }
+}
+
+
+### Receive message from EM queue
+# @name returnMessage
+
+POST   {{ressourceurl}}/messagingrest/v1/queues/{{queuename}}/messages/consumption
+Content-Type: application/json
+x-qos: 1
+Authorization: Bearer {{accessToken}}
+
+### Acknowledge message  (remove from queue)
+@messageid = {{returnMessage.response.headers.x-message-id}}
+
+POST   {{ressourceurl}}/messagingrest/v1/queues/{{queuename}}/messages/{{messageid}}/acknowledgement
+Content-Type: application/json
+x-qos: 1
+Authorization: Bearer {{accessToken}}

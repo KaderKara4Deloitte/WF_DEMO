@@ -1,0 +1,12 @@
+Highly recommended OPENSAP training :
+-------------------------------------
+https://open.sap.com/courses/btp2
+
+
+Prepackaged content on API business hub
+----------------------------------------
+https://api.sap.com/content-type/Workflow/workflowmanagement
+
+BTP WF community 
+------------------
+https://community.sap.com/topics/workflow-management

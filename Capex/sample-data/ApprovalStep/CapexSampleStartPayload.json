@@ -1,0 +1,23 @@
+{
+    "RequestId": "SONY DEMO REQUEST",
+    "Title": "Build mobile apps",
+    "Requester": {
+        "Name":"Kader Kara",
+        "UserId":"kakara",
+        "Comment":"Please Approve"
+    },
+    "Investment": {        
+        "BusinessUnit": "Purchasing",
+        "Type": "Software",
+        "Description": "Provide New IT app for business users",
+        "TotalCost": 150000,
+        "CAPEX": 100000,
+        "OPEX": 50000,
+        "ROI": 5,
+        "Currency": "CAD",
+        "Country": "Canada"
+    },
+    "approvalstep": "LocalManager",
+    "History": null,
+    "internal": null
+}

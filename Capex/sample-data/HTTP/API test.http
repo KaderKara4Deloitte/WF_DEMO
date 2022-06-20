@@ -1,0 +1,39 @@
+#Global Variables
+@OAuthurl = https://ad487a1ctrial.authentication.us10.hana.ondemand.com
+@ressourceurl = https://bpmruleruntime.rule.cfapps.us10.hana.ondemand.com
+@endpoint = rules-service/rest/v2/workingset-rule-services
+@clientid = sb-clone-f618fd85-c9ee-4e5e-8777-1aa0d2526500!b79620|bpmrulebroker!b2018
+@clientsecret = dd2cefc3-c7df-4822-8085-95e014943bc2$B1Sma025aN2KegFXfkkcNz2MTHKWDtDKmE8G1NGWzh8=
+
+
+### Get Access Token
+# @name Oauth2Response
+
+POST   {{OAuthurl}}/oauth/token 
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+client_id={{clientid}}&client_secret={{clientsecret}}&grant_type=client_credentials&response_type=token
+
+### Token Response extraction
+@accessToken = {{Oauth2Response.response.body.access_token}}
+
+### Send message to BR engine
+POST   {{ressourceurl}}/{{endpoint}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "RuleServiceId": "a37df8246b2048dfba6f07c46e6ed25f",
+    "Vocabulary": [
+        {
+            "Investment": {
+                "ApprovalStep": "LocalManager",
+                "Type": "Software",
+                "TotalCost": 15000,
+                "BusinessUnit": "Purchasing",                
+                "Country": "Francee"
+            }
+        }
+    ]
+}
